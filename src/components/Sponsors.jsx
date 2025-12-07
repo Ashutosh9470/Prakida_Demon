@@ -1,5 +1,5 @@
 const sponsors = [
-    "ASUS ROG", "Red Bull", "Logitech G", "Nike", "Adidas", "Puma", "Razer", "Sony", "Samsung"
+    "ASUS ROG", "Red Bull", "Logitech G", "Nike", "Adidas", "Puma", "Razer", "Sony", "Eco-Water"
 ];
 
 const Sponsors = () => {
