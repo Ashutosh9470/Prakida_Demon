@@ -1,4 +1,5 @@
 import { SiInstagram, SiGmail, SiGooglemaps } from "react-icons/si";
+import { FaPhone } from "react-icons/fa6";
 
 const Footer = () => {
     return (
@@ -7,24 +8,34 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-10 mb-16">
                     <div className="text-center md:text-left">
                         <a href="#" className="text-3xl font-display font-bold text-white mb-4 block">PRAKIDA</a>
-                        <p className="text-gray-500 max-w-sm">
+                        <p className="text-gray-500 max-w-sm mb-6">
                             Forged in Sportsmanship, Inspired by Hashira. The ultimate inter-college sports festival.
                         </p>
+                        <div className="flex justify-center md:justify-start gap-6">
+                            <a href="https://www.instagram.com/bitp_prakrida/" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-prakida-flame hover:text-white transition-all" target="_blank">
+                                <SiInstagram size={20} />
+                            </a>
+                        </div>
                     </div>
 
-                    <div className="flex gap-6">
-                        <a href="https://www.instagram.com/bitp_prakrida/" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-prakida-flame hover:text-white transition-all" target="_blank">
-                            <SiInstagram size={20} />
-                        </a>
+                    <div className="flex flex-col items-center md:items-start gap-3 text-base md:text-lg text-gray-400">
+                        <div className="flex items-center gap-3">
+                            <SiGooglemaps size={20} />
+                            <span>BIT Patna, Bihar, India</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <FaPhone size={20} />
+                            <span>Contact: 79035 55032</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <SiGmail size={20} />
+                            <a href="mailto:prakida@bitmesra.ac.in" className="hover:text-gray-400 transition-colors">prakida@bitmesra.ac.in</a>
+                        </div>
                     </div>
                 </div>
 
-                <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-center md:justify-between items-center gap-4 text-sm text-gray-600">
+                <div className="border-t border-white/5 pt-8 flex justify-center text-center text-sm text-gray-600">
                     <div>© 2026 PRAKIDA Sports Fest. All rights reserved.</div>
-                    <div className="flex items-center gap-2">
-                        <SiGooglemaps size={16} />
-                        <span>University Main Ground, Campus Area</span>
-                    </div>
                 </div>
             </div>
         </footer>
