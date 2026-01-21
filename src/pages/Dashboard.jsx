@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 import { sectionSlide, buttonHover, buttonTap } from "../utils/motion";
 import { User, Trophy, Calendar, Users, Shield } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -217,12 +217,12 @@ const Dashboard = () => {
             <p className="text-gray-400 mb-4">
               You have not registered for any events yet.
             </p>
-            <a
-              href="/#register"
+            <Link
+              to="/register"
               className="inline-block px-6 py-2 bg-prakida-flame text-white font-bold skew-x-[-12deg]"
             >
               <span className="skew-x-[12deg] block">REGISTER NOW</span>
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
