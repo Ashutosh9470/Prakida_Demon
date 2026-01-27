@@ -42,7 +42,7 @@ const Tickets = () => {
       const bookingResponse = await paymentService.initiatePayment({
         amount: EVENT_DETAILS.price,
         currency: "INR",
-        description: `Pro Night Pass - ${user.email}`,
+        description: `Pro-nite Pass - ${user.email}`,
         meta_data: {
           ticket_id: ticket.id,
           type: "pro_night_pass",

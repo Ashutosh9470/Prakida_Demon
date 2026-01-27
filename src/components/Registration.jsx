@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -12,6 +12,7 @@ const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitLockRef = useRef(false);
   const [status, setStatus] = useState({ type: "", message: "" });
 
   const getInitialSelectionFromQuery = () => {
@@ -150,6 +151,10 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Guard against accidental double-submits (can open payment twice).
+    if (isSubmitting || submitLockRef.current) return;
+
     if (!user) {
       navigate("/login");
       return;
@@ -275,6 +280,8 @@ const Registration = () => {
       }
     }
 
+    // Lock immediately before starting the async booking.
+    submitLockRef.current = true;
     setIsSubmitting(true);
     setStatus({ type: "", message: "" });
 
@@ -319,21 +326,15 @@ const Registration = () => {
 
       setStatus({ type: "success", message: "Redirecting to payment..." });
       if (response?.paymentUrl) {
-        const opened = window.open(
-          response.paymentUrl,
-          "_blank",
-          "noopener,noreferrer",
-        );
-
-        // If popup is blocked, fallback to same-tab navigation.
-        if (!opened) {
-          window.location.href = response.paymentUrl;
-        }
+        // Use a single deterministic navigation to avoid opening twice.
+        // (Some browsers return null for window.open when using noopener.)
+        window.location.assign(response.paymentUrl);
       } else {
         setStatus({
           type: "error",
           message: "Booking created but payment URL is missing. Please contact support.",
         });
+        submitLockRef.current = false;
         setIsSubmitting(false);
       }
     } catch (error) {
@@ -342,6 +343,7 @@ const Registration = () => {
         type: "error",
         message: error?.message || "Failed to register. Please try again.",
       });
+      submitLockRef.current = false;
       setIsSubmitting(false);
     }
   };
