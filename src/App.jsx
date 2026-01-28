@@ -28,6 +28,7 @@ const Signup = lazy(() => import("./pages/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const Tickets = lazy(() => import("./pages/Tickets"));
+const Accommodation = lazy(() => import("./pages/Accommodation"));
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -119,6 +120,14 @@ const AnimatedRoutes = () => {
             element={
               <PageTransition>
                 <Tickets />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/accommodation"
+            element={
+              <PageTransition>
+                <Accommodation />
               </PageTransition>
             }
           />
