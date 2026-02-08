@@ -14,6 +14,12 @@ import {
   Swords,
   RefreshCw,
   LogIn,
+  Goal,
+  Dribbble,
+  Volleyball,
+  Brain,
+  Table,
+  Disc,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
@@ -37,7 +43,7 @@ const SPORTS_DATA = [
   {
     id: "cricket",
     title: "CRICKET",
-    icon: Target,
+    icon: "icons/cricket.png",
     configSport: "Cricket",
     players: "11-15 Players",
     category: "Men & Women",
@@ -50,7 +56,7 @@ const SPORTS_DATA = [
   {
     id: "football",
     title: "FOOTBALL",
-    icon: Activity,
+    icon: "icons/football.png",
     configSport: "Football",
     players: "11 vs 11",
     category: "Men & Women",
@@ -63,7 +69,7 @@ const SPORTS_DATA = [
   {
     id: "basketball",
     title: "BASKETBALL",
-    icon: Zap,
+    icon: "icons/basketball.png",
     configSport: "Basketball",
     players: "5-10 Players",
     category: "Men & Women",
@@ -76,7 +82,7 @@ const SPORTS_DATA = [
   {
     id: "badminton",
     title: "BADMINTON",
-    icon: Activity,
+    icon: "icons/badminton.png",
     configSport: "Badminton",
     players: "Singles / Doubles",
     category: "Men & Women",
@@ -90,7 +96,7 @@ const SPORTS_DATA = [
   {
     id: "volleyball",
     title: "VOLLEYBALL",
-    icon: Users,
+    icon: "icons/volleyball.png",
     configSport: "Volleyball",
     players: "6-9 Players",
     category: "Men & Women",
@@ -104,7 +110,7 @@ const SPORTS_DATA = [
   {
     id: "chess",
     title: "CHESS",
-    icon: Trophy,
+    icon: "icons/chess.png",
     configSport: "Chess",
     players: "5-6 Players",
     category: "Men & Women",
@@ -118,7 +124,7 @@ const SPORTS_DATA = [
   {
     id: "lawn-tennis",
     title: "LAWN TENNIS",
-    icon: Swords,
+    icon: "icons/lawn tennis.png",
     configSport: "Lawn Tennis",
     players: "Per Head (1-12 Players)",
     category: "Men & Women",
@@ -133,7 +139,7 @@ const SPORTS_DATA = [
   {
     id: "table-tennis",
     title: "TABLE TENNIS",
-    icon: Activity,
+    icon: "icons/table tennis.png",
     configSport: "Table Tennis",
     players: "Team / Singles / Mixed",
     category: "Mixed",
@@ -148,7 +154,7 @@ const SPORTS_DATA = [
   {
     id: "carrom",
     title: "CARROM",
-    icon: Target,
+    icon: Swords,
     configSport: "Carrom",
     players: "Team / Mixed Doubles",
     category: "Men / Women / Mixed",
@@ -231,7 +237,7 @@ const ESPORTS_DATA = [
   {
     id: "valorant",
     title: "VALORANT",
-    icon: Gamepad2,
+    icon: "icons/valorant.png",
     configSport: "E-Sports",
     focusCategoryId: "valorant",
     players: getPlayersRange("E-Sports", "valorant"),
@@ -471,7 +477,7 @@ const Sports = () => {
                 key={sport.id}
                 variants={cardSnap}
                 onClick={() => setSelectedSport(sportForModal)}
-                className="group relative bg-white/5 border border-white/10 rounded-sm overflow-hidden hover:border-prakida-flame/50 transition-all duration-500 cursor-pointer"
+                className="group sport-box relative bg-white/5 border border-white/10 rounded-sm overflow-hidden hover:border-prakida-flame/50 transition-all duration-500 cursor-pointer"
               >
                 {reg && (
                   <div className="absolute left-4 top-4 z-20">
@@ -496,7 +502,8 @@ const Sports = () => {
                 <div className="p-10 relative z-10 h-full flex flex-col">
                   <div className="mb-8 flex justify-between items-start">
                     <div className="p-4 bg-white/5 rounded-sm border border-white/10 group-hover:border-prakida-flame/30 group-hover:bg-prakida-flame/5 transition-all duration-500">
-                      <sport.icon className="text-white group-hover:text-prakida-flame transition-colors" size={32} />
+                      <img src={sport.icon} className="sport-icon w-[32px] h-[32px]"/>
+                      {/* <sport.icon className="text-white group-hover:text-prakida-flame transition-colors" size={32} /> */}
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <span className="text-[10px] font-mono text-gray-500 tracking-[0.2em] uppercase">
@@ -596,7 +603,8 @@ const Sports = () => {
                       <>
                   <div className="mb-8 flex justify-between items-start">
                     <div className="p-4 bg-white/5 rounded-sm border border-white/10 group-hover:border-prakida-flame/30 group-hover:bg-prakida-flame/5 transition-all duration-500">
-                      <game.icon className="text-white group-hover:text-prakida-flame transition-colors" size={32} />
+                      <img src={game.icon} className="sport-icon w-[32px] h-[32px]"/>
+                      {/* <game.icon className="text-white group-hover:text-prakida-flame transition-colors" size={32} /> */}
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <span className="text-[10px] font-mono text-gray-500 tracking-[0.2em] uppercase">
