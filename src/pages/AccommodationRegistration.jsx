@@ -7,7 +7,7 @@ import { Users, BedDouble, RefreshCw } from "lucide-react";
 import MemberSelector from "../components/MemberSelector";
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
 
-const PRICE_PER_PERSON = 1390;
+const PRICE_PER_PERSON = 1349;
 
 const AccommodationRegistration = () => {
   const { user } = useAuth();
