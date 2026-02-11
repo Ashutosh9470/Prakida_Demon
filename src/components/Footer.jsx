@@ -1,4 +1,4 @@
-import { SiInstagram, SiGmail, SiGooglemaps } from "react-icons/si";
+import { SiInstagram, SiGmail, SiGooglemaps, SiWhatsapp } from "react-icons/si";
 import { FaPhone } from "react-icons/fa6";
 
 const Footer = () => {
@@ -25,6 +25,14 @@ const Footer = () => {
                 rel="noreferrer"
               >
                 <SiInstagram size={20} />
+              </a>
+              <a
+                href="https://chat.whatsapp.com/C6ZzJfmFfgk9tSclTa7nmZ"
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-[#25D366] hover:text-white transition-all duration-300"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <SiWhatsapp size={20} />
               </a>
             </div>
           </div>
