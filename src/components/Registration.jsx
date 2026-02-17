@@ -161,6 +161,12 @@ const Registration = () => {
     }
   };
 
+  const genderMap = {
+    Male: "M",
+    Female: "F",
+    Other: "O",
+  };
+
   const removeMember = (index) => {
     const newMembers = members.filter((_, i) => i !== index);
     setMembers(newMembers);
@@ -323,7 +329,6 @@ const Registration = () => {
     submitLockRef.current = true;
     setIsSubmitting(true);
     setStatus({ type: "", message: "" });
-
     try {
       const { eventsService } = await import("../services/api/events");
 
@@ -332,7 +337,7 @@ const Registration = () => {
         email: contactEmail || user?.email || "",
         phone: contactPhone,
         role: leadershipEnabled ? userRole : "Player",
-        gender,
+        gender: genderMap[gender] || gender.charAt(0).toUpperCase(), // Convert to "M"/"F"/"O" or first letter as fallback
       };
 
       const memberPayload =
@@ -344,7 +349,7 @@ const Registration = () => {
                 email: m.email,
                 phone: m.contact,
                 role: leadershipEnabled ? m.role || "Player" : "Player",
-                gender: m.gender,
+                gender: genderMap[m.gender] || m.gender.charAt(0).toUpperCase(), // Convert to "M"/"F"/"O" or first letter as fallback
               })),
             ]
           : [primaryMember];
@@ -359,7 +364,7 @@ const Registration = () => {
         college,
         members: memberPayload,
         role: leadershipEnabled ? userRole : "Player",
-        gender,
+        gender: genderMap[gender] || gender.charAt(0).toUpperCase(),
         teamName: leadershipEnabled ? teamName : undefined,
       });
 
@@ -410,12 +415,10 @@ const Registration = () => {
 
       const snap = await getDoc(doc(db, "users", user.uid));
       if (snap.exists()) {
-        setForm({
-          name: snap.data()?.full_name || "",
-          phone: snap.data()?.phone || "",
-          college: snap.data()?.college || "",
-          gender: snap.data()?.gender || "",
-        });
+        setRegistrantName(snap.data()?.full_name || "");
+        setContactPhone(snap.data()?.phone || "");
+        setCollege(snap.data()?.college || "");
+        setGender(snap.data()?.gender || "");
       }
 
       if (snap.data()?.gender) {
@@ -694,7 +697,7 @@ const Registration = () => {
                   </label>
                   <input
                     type="text"
-                    value={form.college}
+                    value={college}
                     onChange={(e) => setCollege(e.target.value)}
                     className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                     placeholder="ENTER COLLEGE NAME"
@@ -709,7 +712,7 @@ const Registration = () => {
                     </label>
                     <input
                       type="email"
-                      value={form.email}
+                      value={contactEmail}
                       onChange={(e) => setContactEmail(e.target.value)}
                       className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                       placeholder={user?.email || "EMAIL"}
@@ -722,11 +725,12 @@ const Registration = () => {
                     </label>
                     <input
                       type="tel"
-                      value={form.phone}
+                      value={contactPhone}
                       onChange={(e) => setContactPhone(e.target.value)}
                       className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                       placeholder="+91..."
                       required
+                      maxLength={10}
                     />
                   </div>
                 </div>
@@ -787,7 +791,7 @@ const Registration = () => {
                     {contactEmail || "No Email"}
                   </div>
                   <div className="bg-black/30 border border-white/10 p-2 text-gray-400 text-sm">
-                    {form.phone || "No Phone"}
+                    {contactPhone || "No Phone"}
                   </div>
                 </div>
               </div>
@@ -877,11 +881,7 @@ const Registration = () => {
                         onChange={(e) =>
                           handleMemberChange(index, "contact", e.target.value)
                         }
-                        placeholder={
-                          member.role === "Player"
-                            ? "PHONE (OPTIONAL)"
-                            : "PHONE (REQUIRED)"
-                        }
+                        placeholder={"PHONE (REQUIRED)"}
                         className={`bg-black/30 border border-white/10 p-2 text-white text-sm focus:border-prakida-flame focus:outline-none w-full ${(member.role === "Captain" || member.role === "Vice-Captain") && !member.contact ? "border-red-500/50" : ""}`}
                       />
                     </div>

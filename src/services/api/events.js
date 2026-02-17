@@ -1,6 +1,9 @@
 import { auth } from "../../lib/firebase";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(
+  /\/$/,
+  "",
+);
 
 class ApiError extends Error {
   constructor(message, { status, payload } = {}) {
@@ -52,7 +55,9 @@ const apiFetch = async (path, { method = "GET", body } = {}) => {
 
   if (!response.ok) {
     let message =
-      payload?.message || payload?.error || `Request failed (${response.status})`;
+      payload?.message ||
+      payload?.error ||
+      `Request failed (${response.status})`;
 
     if (response.status === 404 && !API_BASE_URL) {
       message =
@@ -65,9 +70,23 @@ const apiFetch = async (path, { method = "GET", body } = {}) => {
 };
 
 export const eventsService = {
-  async bookEvent({ eventId, type, members, name, phone, college, role, gender, teamName }) {
+  async bookEvent({
+    eventId,
+    type,
+    members,
+    name,
+    phone,
+    college,
+    role,
+    gender,
+    teamName,
+  }) {
     const normalizedGender = normalizeGender(gender);
-    if (normalizedGender && normalizedGender !== "M" && normalizedGender !== "F") {
+    if (
+      normalizedGender &&
+      normalizedGender !== "M" &&
+      normalizedGender !== "F"
+    ) {
       throw new ApiError("Gender must be M or F.", {
         status: 400,
         payload: { gender },
@@ -91,10 +110,13 @@ export const eventsService = {
       (m) => !m?.gender || (m.gender !== "M" && m.gender !== "F"),
     );
     if (missingGenderIndex !== -1) {
-      throw new ApiError(`Member #${missingGenderIndex + 1} gender must be M or F.`, {
-        status: 400,
-        payload: { member: normalizedMembers[missingGenderIndex] },
-      });
+      throw new ApiError(
+        `Member #${missingGenderIndex + 1} gender must be M or F.`,
+        {
+          status: 400,
+          payload: { member: normalizedMembers[missingGenderIndex] },
+        },
+      );
     }
 
     const body = {
