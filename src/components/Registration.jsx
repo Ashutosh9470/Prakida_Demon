@@ -787,7 +787,7 @@ const Registration = () => {
                     {contactEmail || "No Email"}
                   </div>
                   <div className="bg-black/30 border border-white/10 p-2 text-gray-400 text-sm">
-                    {contactPhone || "No Phone"}
+                    {form.phone || "No Phone"}
                   </div>
                 </div>
               </div>
