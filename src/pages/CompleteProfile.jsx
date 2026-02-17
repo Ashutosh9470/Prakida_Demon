@@ -8,6 +8,7 @@ const CompleteProfile = () => {
   const { user } = useAuth();
   const [college, setCollege] = useState("");
   const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const CompleteProfile = () => {
         {
           college,
           gender,
+          phone,
           profileCompleted: true,
         },
         { merge: true },
@@ -41,18 +43,25 @@ const CompleteProfile = () => {
         className="bg-zinc-900 p-8 rounded-lg w-full max-w-md space-y-4"
       >
         <h1 className="text-2xl font-bold text-white">Complete Your Profile</h1>
-
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full bg-black/50 border border-gray-700 p-3 text-white focus:outline-none focus:border-prakida-flame"
+          placeholder="+91..."
+          required
+        />
         <input
           required
           placeholder="College Name"
-          className="w-full p-3 bg-black border border-gray-700 text-white"
+          className="w-full p-3 bg-black/50 border border-gray-700 focus:outline-none focus:border-prakida-flame text-white"
           value={college}
           onChange={(e) => setCollege(e.target.value)}
         />
 
         <select
           required
-          className="w-full p-3 bg-black border border-gray-700 text-white"
+          className="w-full p-3 bg-black border border-gray-700 text-white focus:outline-none focus:border-prakida-flame"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
         >

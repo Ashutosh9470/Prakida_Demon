@@ -23,7 +23,12 @@ const ProfileGuard = ({ children }) => {
     setCheckingProfile(true);
 
     const unsub = onSnapshot(doc(db, "users", user.uid), (snap) => {
-      if (snap.exists() && snap.data()?.college && snap.data()?.gender) {
+      if (
+        snap.exists() &&
+        snap.data()?.college &&
+        snap.data()?.gender &&
+        snap.data()?.phone
+      ) {
         setProfileComplete(true);
       } else {
         setProfileComplete(false);
