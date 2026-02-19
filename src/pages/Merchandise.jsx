@@ -10,6 +10,10 @@ import { auth } from "../lib/firebase";
 const BASE_API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const getAuthHeaders = async () => {
+  if (!auth) {
+    console.error("Auth object is undefined in getAuthHeaders");
+    return {};
+  }
   const token = auth.currentUser ? await auth.currentUser.getIdToken() : "";
   return {
     "Content-Type": "application/json",
@@ -18,10 +22,25 @@ const getAuthHeaders = async () => {
 };
 
 const fetchJson = async (url, options = {}) => {
-  const resp = await fetch(url, options);
-  const data = await resp.json();
-  if (!resp.ok) throw new Error(data.message || "Request failed");
-  return { resp, data };
+  try {
+    const resp = await fetch(url, options);
+    const contentType = resp.headers.get("content-type");
+    let data = {};
+    if (contentType && contentType.includes("application/json")) {
+      data = await resp.json();
+    } else {
+      // If not JSON (e.g. 500 HTML error page), consume text to avoid dangling stream
+      const text = await resp.text();
+      data = { message: text || resp.statusText };
+    }
+    
+    if (!resp.ok) {
+        throw new Error(data.message || `Request failed with status ${resp.status}`);
+    }
+    return { resp, data };
+  } catch (error) {
+    throw error;
+  }
 };
 
 const PRODUCTS = [
@@ -772,15 +791,15 @@ export default function Merchandise() {
                             Order ID: {order.id}
                           </div>
                           <div
-                            className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${
-                              order.status === "PAID"
-                                ? "bg-emerald-500/20 text-emerald-400"
-                                : order.status === "PENDING"
-                                  ? "bg-amber-500/20 text-amber-400"
-                                  : "bg-white/10 text-white/70"
+                            className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
+                              order.status === "PAID" || order.status === "captured"
+                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                                : ["PENDING", "pending_payment", "created"].includes(order.status)
+                                  ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                                  : "bg-white/10 text-white/60 border border-white/10"
                             }`}
                           >
-                            {order.status || "UNKNOWN"}
+                            {(order.status || "UNKNOWN").replace("_", " ")}
                           </div>
                         </div>
                         <div className="text-right">
@@ -789,7 +808,7 @@ export default function Merchandise() {
                           </div>
                           <button
                             onClick={() => checkOrderStatus(order.id)}
-                            className="text-xs text-[#ff4f81] hover:underline mt-1"
+                            className="text-xs text-[#ffa74f] hover:text-[#ff4f81] hover:underline mt-1 transition-colors"
                           >
                             Check Status
                           </button>
@@ -811,7 +830,9 @@ export default function Merchandise() {
                         <div className="mt-3 pt-2 border-t border-white/10">
                           <a
                             href={order.payment_url}
-                            className="block text-center w-full py-2 bg-[#ff4f81] hover:bg-[#ff1744] rounded-lg text-white font-medium text-sm transition-colors"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-center w-full py-2 bg-gradient-to-r from-[#ff4f81] to-[#c55438] hover:shadow-lg hover:shadow-[#ff4f81]/20 rounded-lg text-white font-medium text-sm transition-all"
                           >
                             Complete Payment
                           </a>
